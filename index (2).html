@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmisión Animada</title>
+    
+    <!-- CSS incrustado para los estilos y animaciones -->
+    <style>
+        /* Reseteo básico y estilos generales del cuerpo */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica', sans-serif;
+            background-color: #121212; /* Un fondo oscuro para que el texto resalte */
+            color: #ffffff;
+            overflow: hidden; /* Evita barras de scroll innecesarias */
+        }
+
+        /* Contenedor principal para centrar el contenido */
+        .transmission-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* El elemento que mostrará el texto animado */
+        #text-display {
+            /* ¡Letras bien gruesas como pediste! */
+            font-weight: 900; 
+            
+            /* Tamaño de fuente responsivo para que se vea bien en cualquier pantalla */
+            font-size: clamp(2.5rem, 8vw, 5.5rem); 
+            
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+            
+            /* Importante: el texto empieza invisible y se anima para aparecer */
+            opacity: 0;
+        }
+
+        /* Clase que se añadirá con JavaScript para activar la animación */
+        .animate-in {
+            /* Aquí se aplica la animación 'fadeInUp' que definimos abajo */
+            animation: fadeInUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        /* Definición de la animación (Keyframes) */
+        @keyframes fadeInUp {
+            /* Estado inicial: invisible y un poco desplazado hacia abajo */
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            /* Estado final: totalmente visible y en su posición original */
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="transmission-container">
+        <!-- Este h1 es donde aparecerán mágicamente las frases -->
+        <h1 id="text-display"></h1>
+    </div>
+
+    <!-- JavaScript incrustado para la lógica de la animación -->
+    <script>
+        // 1. Obtenemos la referencia al elemento H1 donde mostraremos el texto.
+        const textDisplay = document.getElementById('text-display');
+
+        // 2. Aquí están las frases que vamos a mostrar, incluyendo las tuyas.
+        const phrases = [
+            "Pero la quería tanto...",
+            "Que daba igual",
+            "😔💔",
+            "Con tan solo unas lustradas",
+            "Me movia el mundo entero",
+            "Las nuevas de paquete",
+            "Hay que tratarlas como juguete",
+            "Al inicio me estaban enamorando",
+            "Y al final me dejaron factorizando...",
+            "Si no dejas el pasado en el pasado",
+            "Arruinará tu futuro",
+            "Facto"
+            
+        
+        ];
+
+        // 3. Variables para controlar el ciclo de frases.
+        let phraseIndex = 0;
+        const animationDuration = 700; // 1.2 segundos (debe coincidir con el CSS)
+        const readingTime = 1200; // 2.5 segundos de tiempo para leer la frase
+
+        // 4. La función principal que controla el ciclo de animaciones.
+        function showNextPhrase() {
+            // Primero, hacemos que el texto actual desaparezca (reseteando)
+            textDisplay.classList.remove('animate-in');
+            
+            // Usamos un pequeño retardo para que el navegador procese la eliminación 
+            // de la clase antes de añadirla de nuevo. Esto es clave para que la animación se repita.
+            setTimeout(() => {
+                // Actualizamos el contenido del H1 con la frase actual
+                textDisplay.textContent = phrases[phraseIndex];
+                
+                // Añadimos la clase para que se active la animación de entrada
+                textDisplay.classList.add('animate-in');
+                
+                // Pasamos a la siguiente frase, y si llegamos al final, volvemos al principio (loop)
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+
+            }, 100); // Un pequeño retardo de 100ms es suficiente
+
+            // 5. Programamos la siguiente llamada a esta misma función.
+            // El tiempo de espera es la suma de la animación + el tiempo de lectura.
+            setTimeout(showNextPhrase, animationDuration + readingTime);
+        }
+
+        // ¡Empezamos el espectáculo! Llamamos a la función por primera vez.
+        showNextPhrase();
+    </script>
+
+</body>
+</html>
